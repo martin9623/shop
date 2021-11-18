@@ -14,7 +14,7 @@
     prodContainer.innerHTML += `
       <div class="card text-center col-3">
             <div class="card-body">
-                <img class="w-50"
+                <img class="w-75"
                     src="${img}"
                     alt="">
                 <h5 class="card-title">${name}</h5>
