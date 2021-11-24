@@ -20,7 +20,7 @@
                 <h5 class="card-title">${name}</h5>
                 <p class="card-text fs-4">${description}</p>
                 <p class="card-text fs-4">$${price}</p>
-                <a href="#" class="btn btn-primary">
+                <a href="#" class="btnAddToCart btn btn-primary">
                     <i class="bi bi-cart-plus-fill"></i>
                     add cart
                 </a>
@@ -29,18 +29,20 @@
       `;
   };
 
-  const prodContainer = document.getElementById("productsContainer");
+  /*----Nav modals buttons----*/
   const btnAdmin = document.getElementById("btnAdmin");
-  const adminForm = document.getElementById("adminForm");
-  const closeForm = document.getElementById("closeForm");
-  const form = document.getElementById("form");
-  const cartModal = document.getElementById("cartModal");
-  const closeCart = document.getElementById("closeCart");
-  const btnCart = document.getElementById("btnCart");
-  const btnMemory = document.getElementById("btnMemory");
   const btnLogin = document.getElementById("btnLogin");
-  const loginForm = document.getElementById("loginForm");
+  const btnCart = document.getElementById("btnCart");
+  const closeAdmin = document.getElementById("closeAdmin");
   const closeLogin = document.getElementById("closeLogin");
+  const closeCart = document.getElementById("closeCart");
+  const adminModal = document.getElementById("adminModal");
+  const loginModal = document.getElementById("loginModal");
+  const cartModal = document.getElementById("cartModal");
+  /*----Forms----*/
+  const prodContainer = document.getElementById("productsContainer");
+  const form = document.getElementById("form");
+  const btnMemory = document.getElementById("btnMemory");
 
   /*----Load products in localStorage----*/
 
@@ -49,9 +51,7 @@
 
   if (localData != null) {
     localData = JSON.parse(localData);
-    // console.log("localStorage al recargar la pagina:", localData);
     products = products.concat(localData);
-    // console.log("Array de products al concatenar:", products);
     products.forEach((product) => {
       addToDom(product.img, product.name, product.description, product.price);
     });
@@ -59,24 +59,34 @@
 
   /*----Open modal----*/
 
-  const openModal = (btn, form) => {
+  const openModal = (btn, form, modalOne, modalTwo) => {
     btn.addEventListener("click", () => {
       form.classList.toggle("d-none");
+      modalOne.classList.add("d-none");
+      modalTwo.classList.add("d-none");
     });
   };
 
-  openModal(btnAdmin, adminForm);
-  openModal(closeForm, adminForm);
-  openModal(btnLogin, loginForm);
-  openModal(closeLogin, loginForm);
-  openModal(btnCart, cartModal);
-  openModal(closeCart, cartModal);
+  openModal(btnAdmin, adminModal, loginModal, cartModal);
+  openModal(closeAdmin, adminModal, loginModal, cartModal);
+  openModal(btnLogin, loginModal, adminModal, cartModal);
+  openModal(closeLogin, loginModal, adminModal, cartModal);
+  openModal(btnCart, cartModal, adminModal, loginModal);
+  openModal(closeCart, cartModal, adminModal, loginModal);
 
   /*---Clear Local Storage----*/
 
   btnMemory.addEventListener("click", () => {
     localStorage.clear();
     window.location.reload();
+  });
+
+  /*----Add to cart----*/
+
+  prodContainer.addEventListener("click", (e) => {
+    if (e.target.classList == "btnAddToCart btn btn-primary") {
+      console.log(e.target);
+    }
   });
 
   /*----Form to add products----*/
